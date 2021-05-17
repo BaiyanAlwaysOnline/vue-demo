@@ -9,7 +9,7 @@
                 padding: 0
             }'
         >
-            <list :total='1000000' />
+            <list :total='100' />
         </a-modal>
         <button @click="show">show</button>
     </div>

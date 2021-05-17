@@ -18,9 +18,12 @@ export default {
         return {
             // 行高
             rowHeight: 30,
+            originStartIdx: 0,
             startIndex: 0,
             endIndex: 0,
             height: 500,
+            bufferSize: 0,
+            scrollTop: 0,
         };
     },
     props: {
@@ -30,6 +33,7 @@ export default {
     },
     mounted() {
         this.endIndex = this.startIndex + this.limit;
+        this.bufferSize = this.limit;
     },
     computed: {
         // 虚拟列表总高度
@@ -70,20 +74,20 @@ export default {
                 const currentStartIndex = Math.floor(scrollTop / rowHeight);
                 if (currentStartIndex !== this.startIndex) {
                     this.originStartIdx = currentStartIndex;
-                    const bufferSize = limit;
                     // 增加缓冲区 多渲染一些数据，解决快速滑动会出现列表闪烁的现象/来不及渲染、空白的现象；
                     // 即上下多渲染一些元素用来过渡快速滑动时来不及渲染的问题
                     // 对 startIndex 进行 头部 缓冲区 计算
                     this.startIndex = Math.max(
-                        this.originStartIdx - bufferSize,
+                        this.originStartIdx - this.bufferSize,
                         0
                     );
                     // 对 endIndex 进行 尾部 缓冲区 计算
                     this.endIndex = Math.min(
-                        currentStartIndex + limit + bufferSize,
+                        currentStartIndex + limit + this.bufferSize,
                         total
                     );
                 }
+                this.scrollTop = scrollTop;
             }
         },
     },
