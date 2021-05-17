@@ -1,28 +1,42 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div class="container" ref="container">
+        <a-modal
+            :visible="visible"
+            @cancel="visible = false"
+            :maskClosable='false'
+            :closable='false'
+            :bodyStyle='{
+                padding: 0
+            }'
+        >
+            <list :total='1000000' />
+        </a-modal>
+        <button @click="show">show</button>
+    </div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import List from "@/components/List.vue";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+    data() {
+        return {
+            visible: false,
+        };
+    },
+    components: {
+        List,
+    },
+    methods: {
+        show() {
+            this.visible = true;
+        }
+    },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="less" scoped>
+.container {
+    width: 400px;
+    height: 500px;
+    overflow-y: auto;
+    color: #444;
 }
 </style>
